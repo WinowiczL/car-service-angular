@@ -1,12 +1,18 @@
-import { Component, OnInit } from "@angular/core";
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { Car } from "../models/Car";
+import { TotalCostComponent } from "../total-cost/total-cost.component";
 
 @Component({
   selector: "app-cars-list",
   templateUrl: "./cars-list.component.html",
   styleUrls: ["./cars-list.component.less"]
 })
-export class CarsListComponent implements OnInit {
+export class CarsListComponent implements OnInit, AfterViewInit {
+  totalCost: number;
+  grossCost: number;
+
+  @ViewChild("totalCostRef", { static: false })
+  totalCostRef: TotalCostComponent;
   cars: Car[] = [
     {
       id: 1,
@@ -38,5 +44,25 @@ export class CarsListComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  showGross = (): void => {
+    this.totalCostRef.showGross();
+  };
+
+  ngOnInit() {
+    this.countTotalCost();
+  }
+
+  ngAfterViewInit() {
+
+  }
+
+  countTotalCost(): void {
+    this.totalCost = this.cars
+      .map(car => car.cost)
+      .reduce((prev, next) => prev + next);
+  }
+
+  onShownGross = (grossCost: number): void => {
+    this.grossCost = grossCost;
+  }
 }
