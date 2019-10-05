@@ -1,8 +1,16 @@
+<app-header>
+  <p levels>Cars</p>
+
+  <div content>
+    <p>List of cars in service</p>
+  </div>
+</app-header>
+
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
       <table
-        *ngIf="cars.length > 0; else noCarsInfo"
+        *ngIf="cars && cars.length > 0; else noCarsInfo"
         class="cs-table table table-striped"
       >
         <thead>
@@ -18,14 +26,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let car of cars; let i = index">
+          <tr
+            *ngFor="let car of cars; let i = index"
+            (click)="goToCarDetails(car)"
+            class="row-car"
+          >
             <td [ngClass]="{ 'row-error': car.isFullyDamaged }">{{ i }}</td>
-            <td>{{ car.model }}</td>
-            <td>{{ car.plate }}</td>
-            <td>{{ car.deliveryDate }}</td>
-            <td>{{ car.deadline }}</td>
-            <td>{{ car.client.firstName }} {{ car.client.lastName }}</td>
-            <td>{{ car.cost }}</td>
+            <td>{{ car?.model }}</td>
+            <td>{{ car?.plate }}</td>
+            <td>{{ car?.deliveryDate }}</td>
+            <td>{{ car?.deadline }}</td>
+            <td>{{ car?.clientFirstName }} {{ car.clientLastName }}</td>
+            <td>{{ car?.cost }}</td>
             <td>ACTION PLACEHOLDER</td>
           </tr>
         </tbody>
@@ -39,12 +51,16 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <button (click)="showGross()" class="btn btn-primary btn-sm float-left">
+      <button (click)="showGross()" class="btn btn-primary btn-sm float-right">
         SHOW GROSS
       </button>
     </div>
   </div>
-  <app-total-cost #totalCostRef [totalCost]="totalCost" (shownGross)="onShownGross($event)"></app-total-cost>
+  <app-total-cost
+    #totalCostRef
+    [totalCost]="totalCost"
+    (shownGross)="onShownGross($event)"
+  ></app-total-cost>
   <div class="row" *ngIf="grossCost">
     <div class="col-sm-12">
       <div class="total-cost">
@@ -52,4 +68,77 @@
       </div>
     </div>
   </div>
+</div>
+
+<p class="data-header">Add a new car</p>
+<div class="data-container">
+  <form>
+    <div class="row form-group">
+      <div class="col-sm-4">
+        <label>Model</label>
+        <input type="text" class="form-control" placeholder="model" />
+      </div>
+      <div class="col-sm-4">
+        <label>Type</label>
+        <input type="text" class="form-control" placeholder="type" />
+      </div>
+      <div class="col-sm-4">
+        <label>Plate</label>
+        <input type="text" class="form-control" placeholder="plate" />
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-sm-4">
+        <label>Delivery date</label>
+        <input type="text" class="form-control" placeholder="delivery date" />
+      </div>
+      <div class="col-sm-4">
+        <label>Deadline</label>
+        <input type="text" class="form-control" placeholder="deadline" />
+      </div>
+      <div class="col-sm-4">
+        <label>Cost</label>
+        <input type="text" class="form-control" placeholder="cost" />
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-sm-4">
+        <label>Color</label>
+        <input type="text" class="form-control" placeholder="color" />
+      </div>
+      <div class="col-sm-4">
+        <label>Power</label>
+        <input type="text" class="form-control" placeholder="power" />
+      </div>
+      <div class="col-sm-4">
+        <label>Cost</label>
+        <input type="text" class="form-control" placeholder="cost" />
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-sm-4">
+        <label>Client First Name</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="client first name"
+        />
+      </div>
+      <div class="col-sm-4">
+        <label>Client Last Name</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="client last name"
+        />
+      </div>
+      <div class="col-sm-4">
+        <label>Is car fully damaged</label>
+        <input type="checkbox" class="form-control"/>
+      </div>
+    </div>
+  </form>
 </div>

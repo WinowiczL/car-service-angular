@@ -1,6 +1,8 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { Car } from "../models/Car";
 import { TotalCostComponent } from "../total-cost/total-cost.component";
+import { CarsService } from "../cars.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-cars-list",
@@ -10,51 +12,33 @@ import { TotalCostComponent } from "../total-cost/total-cost.component";
 export class CarsListComponent implements OnInit, AfterViewInit {
   totalCost: number;
   grossCost: number;
+  cars: Car[];
 
   @ViewChild("totalCostRef", { static: false })
   totalCostRef: TotalCostComponent;
-  cars: Car[] = [
-    {
-      id: 1,
-      model: "Mazda",
-      plate: "GD1231",
-      deliveryDate: new Date("21-04-2020"),
-      deadline: new Date("05-05-2020"),
-      client: {
-        firstName: "Jan",
-        lastName: "Kowalski"
-      },
-      cost: 300,
-      isFullyDamaged: true
-    },
-    {
-      id: 2,
-      model: "Opel",
-      plate: "ADzxc31",
-      deliveryDate: new Date("11-01-2020"),
-      deadline: new Date("05-02-2020"),
-      client: {
-        firstName: "Adam",
-        lastName: "Malysz"
-      },
-      cost: 500,
-      isFullyDamaged: false
-    }
-  ];
 
-  constructor() {}
+  constructor(private carService: CarsService, private router: Router) {}
 
   showGross = (): void => {
     this.totalCostRef.showGross();
-  };
+  }
 
   ngOnInit() {
-    this.countTotalCost();
+    this.loadCars();
   }
 
-  ngAfterViewInit() {
-
+  goToCarDetails(car: Car) {
+    this.router.navigate(["/cars", car.id]);
   }
+
+  loadCars() {
+    this.carService.getCars().subscribe(cars => {
+      this.cars = cars;
+      this.countTotalCost();
+    });
+  }
+
+  ngAfterViewInit() {}
 
   countTotalCost(): void {
     this.totalCost = this.cars
@@ -64,5 +48,5 @@ export class CarsListComponent implements OnInit, AfterViewInit {
 
   onShownGross = (grossCost: number): void => {
     this.grossCost = grossCost;
-  }
+  };
 }
