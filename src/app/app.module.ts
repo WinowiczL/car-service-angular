@@ -1,12 +1,10 @@
-import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
-import { HttpClientModule } from "@angular/common/http";
-import { AppRoutingModule } from "./app-routing-module";
-import { AppComponent } from "./app.component";
-import { CarsModule } from "./cars/cars.module";
-import { CarsService } from "./cars/cars.service";
-import { CoreModule } from "./core/core.module";
-import { CarsRoutingModule } from "./cars/cars-routing-module";
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {HttpClientModule} from '@angular/common/http';
+import {AppRoutingModule} from './app-routing-module';
+import {AppComponent} from './app.component';
+import {CarsModule, CarsService, CarsRoutingModule, CostSharedService} from './cars/index';
+import {CoreModule} from './core/core.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +16,8 @@ import { CarsRoutingModule } from "./cars/cars-routing-module";
     CarsRoutingModule,
     AppRoutingModule
   ],
-  providers: [CarsService],
+  providers: [CarsService, CostSharedService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

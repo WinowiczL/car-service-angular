@@ -7,6 +7,6 @@ import { ImportantDirective } from './directives/important.directive';
 @NgModule({
   declarations: [HeaderComponent, LastnameShortcutPipe, ImportantDirective],
   imports: [CommonModule],
-  exports: [HeaderComponent, LastnameShortcutPipe, ImportantDirective]
+  exports: [HeaderComponent, LastnameShortcutPipe, ImportantDirective],
 })
 export class SharedModule {}

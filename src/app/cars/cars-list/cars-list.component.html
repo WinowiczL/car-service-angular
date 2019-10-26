@@ -30,18 +30,11 @@
             *ngFor="let car of cars; let i = index"
             (click)="goToCarDetails(car)"
             class="row-car"
+            app-car-table-row
+            [carIndex]="i"
+            [car]="car"
+            (removedCar)="onRemovedCar(car)"
           >
-            <td [ngClass]="{ 'row-error': car.isFullyDamaged }">{{ i + 1 }}</td>
-            <td appImportant>{{ car?.model | uppercase }}</td>
-            <td>{{ car?.plate }}</td>
-            <td>{{ car?.deliveryDate | date: "shortDate" }}</td>
-            <td>{{ car?.deadline | date: "shortDate" }}</td>
-            <td>
-              {{ car?.clientFirstName }}
-              {{ car.clientLastName | lastnameShortcut }}
-            </td>
-            <td appImportant>{{ car?.cost | currency: "PLN":true }}</td>
-            <td (click)="removeCar(car, $event)">( X )</td>
           </tr>
         </tbody>
       </table>
